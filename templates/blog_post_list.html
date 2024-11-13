@@ -1,0 +1,98 @@
+<!-- templates/blog/blog_post_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Blog Posts</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .post-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+
+        .post-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .post-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .post-card h2 {
+            font-size: 1.25em;
+            color: #333;
+            margin: 0;
+        }
+
+        .post-card p {
+            color: #666;
+        }
+
+        .post-card a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .add-post {
+            display: inline-block;
+            margin: 0 auto 20px;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #007bff;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .add-post:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Blog Posts</h1>
+    <a href="{% url 'blog_post_add' %}" class="add-post"><i class="fas fa-plus"></i> Add New Post</a>
+    <div class="post-list">
+        {% for post in posts %}
+        <div class="post-card">
+            <a href="{% url 'blog_post_detail' post.pk %}">
+                {% if post.attachment %}
+                <img src="{{ post.attachment.url }}" alt="{{ post.name }}">
+                {% endif %}
+                <h2>{{ post.name }}</h2>
+                <p>{{ post.description|truncatewords:20 }}</p>
+                <p>{{ post.created_date }}</p>
+            </a>
+            <a href="{% url 'blog_post_edit' post.pk %}">Edit</a>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+
+</html>
